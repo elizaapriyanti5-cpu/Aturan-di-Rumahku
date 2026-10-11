@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏠 Aturan di Rumahku - Kuis Seru!</title>
+<style>
+  :root{
+    --biru: #AEE1F9;
+    --biru-tua: #4FA8D8;
+    --kuning: #FFE9A8;
+    --kuning-tua: #F4C542;
+    --hijau: #C6F1DA;
+    --hijau-tua: #4CAF87;
+    --oranye: #FFD3B0;
+    --oranye-tua: #FF9A5A;
+    --pink: #FFD6E0;
+    --putih: #FFFFFF;
+    --teks: #3A3A3A;
+    --merah-lembut: #FF8A80;
+    --shadow: 0 8px 20px rgba(0,0,0,0.10);
+    --shadow-lg: 0 14px 30px rgba(0,0,0,0.14);
+    --radius: 26px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family: 'Baloo 2','Comic Sans MS','Trebuchet MS', sans-serif;
+    background: linear-gradient(160deg, var(--biru) 0%, var(--hijau) 55%, var(--kuning) 100%);
+    color: var(--teks);
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* dekorasi awan &amp; bintang mengambang di latar belakang */
+  .bg-deco{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .bg-cloud{
+    position:absolute; background:#fff; opacity:.6; border-radius:50px;
+    animation: driftX 26s linear infinite;
+  }
+  .bg-cloud::before, .bg-cloud::after{
+    content:''; position:absolute; background:#fff; border-radius:50%;
+  }
+  .bg-cloud.c1{ width:90px; height:32px; top:6%; left:-15%; animation-duration:32s; }
+  .bg-cloud.c1::before{ width:46px; height:46px; top:-22px; left:10px; }
+  .bg-cloud.c1::after{ width:34px; height:34px; top:-14px; left:50px; }
+  .bg-cloud.c2{ width:70px; height:26px; top:16%; left:-15%; animation-duration:22s; animation-delay:-8s; opacity:.5;}
+  .bg-cloud.c2::before{ width:34px; height:34px; top:-16px; left:8px; }
+  .bg-cloud.c2::after{ width:26px; height:26px; top:-10px; left:38px; }
+  .bg-cloud.c3{ width:110px; height:36px; top:2%; left:-20%; animation-duration:40s; animation-delay:-20s; opacity:.45;}
+  .bg-cloud.c3::before{ width:52px; height:52px; top:-26px; left:14px; }
+  .bg-cloud.c3::after{ width:40px; height:40px; top:-16px; left:60px; }
+  @keyframes driftX{ from{ transform:translateX(0); } to{ transform:translateX(130vw); } }
+  .bg-star{ position:absolute; font-size:18px; opacity:.5; animation: twinkle 3s ease-in-out infinite; }
+  @keyframes twinkle{ 0%,100%{ opacity:.25; transform:scale(.9); } 50%{ opacity:.7; transform:scale(1.15); } }
+
+  #app{
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding: 18px 12px 40px;
+    position:relative; z-index:1;
+  }
+  .screen{
+    width:100%;
+    max-width:640px;
+    display:none;
+    animation: fadeIn .5s ease;
+  }
+  .screen.active{display:block;}
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  .card{
+    background: var(--putih);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 26px 22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:8px;
+    background: linear-gradient(90deg, var(--biru-tua), var(--hijau-tua), var(--kuning-tua), var(--oranye-tua), var(--pink));
+  }
+
+  /* ---------- HALAMAN PEMBUKA ---------- */
+  .home-card{ text-align:center; padding-bottom: 34px;}
+  .deco-row{ font-size:26px; letter-spacing:10px; margin-bottom:6px;}
+  .deco-row span{ display:inline-block; animation: bob 2s ease-in-out infinite; }
+  .deco-row span:nth-child(2){ animation-delay:.2s; }
+  .deco-row span:nth-child(3){ animation-delay:.4s; }
+  .deco-row span:nth-child(4){ animation-delay:.6s; }
+  .deco-row span:nth-child(5){ animation-delay:.8s; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
+  .title-big{
+    font-size: clamp(26px,7vw,38px);
+    font-weight:800;
+    color: var(--biru-tua);
+    text-shadow: 2px 2px 0 var(--kuning);
+    margin: 6px 0 4px;
+  }
+  .subtitle{ font-size: clamp(15px,4vw,18px); color:#6b6b6b; margin-bottom:14px; font-weight:600;}
+  .house-scene{ width:100%; max-width:320px; margin:10px auto 18px; }
+  .btn{
+    border:none; cursor:pointer;
+    font-family:inherit; font-weight:800;
+    border-radius: 50px;
+    padding: 15px 32px;
+    font-size: 18px;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease;
+    color:#fff;
+  }
+  .btn:hover{ transform: translateY(-3px) scale(1.03); box-shadow: var(--shadow-lg); }
+  .btn:active{ transform: translateY(0) scale(0.97); }
+  .btn-primary{ background: linear-gradient(135deg, var(--oranye-tua), #FF7A3D); animation: pulseBtn 2.2s ease-in-out infinite; }
+  @keyframes pulseBtn{ 0%,100%{ box-shadow: var(--shadow); } 50%{ box-shadow: 0 10px 22px rgba(255,122,61,0.45); } }
+  .btn-secondary{ background: linear-gradient(135deg, var(--biru-tua), #3B8FC4); }
+  .btn-green{ background: linear-gradient(135deg, var(--hijau-tua), #3C9C74); }
+  .btn-ghost{ background: #EEE; color:#555; box-shadow:none; }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; }
+
+  /* ---------- IDENTITAS ---------- */
+  .form-group{ margin-bottom:16px; text-align:left;}
+  .form-group label{ font-weight:700; color:var(--biru-tua); display:block; margin-bottom:6px; font-size:15px;}
+  .form-group input{
+    width:100%; padding:13px 16px; border-radius:16px;
+    border:3px solid var(--biru); font-size:16px; font-family:inherit;
+    outline:none; transition:border-color .2s;
+    background:#F7FCFF;
+  }
+  .form-group input:focus{ border-color: var(--biru-tua); }
+  .hint-msg{ color:var(--merah-lembut); font-weight:700; font-size:14px; margin-top:-6px; margin-bottom:14px; display:none;}
+
+  /* ---------- PETUNJUK ---------- */
+  .instr-list{ text-align:left; padding-left: 4px; list-style:none; margin: 16px 0;}
+  .instr-list li{
+    display:flex; gap:12px; align-items:flex-start;
+    background: #F7FCFF; border-radius:16px; padding:12px 14px; margin-bottom:10px;
+    font-weight:600; font-size:15px;
+  }
+  .instr-num{
+    flex:0 0 auto; width:28px; height:28px; border-radius:50%;
+    background:var(--kuning-tua); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:14px;
+  }
+
+  /* ---------- HEADER KUIS ---------- */
+  .quiz-header{ margin-bottom:14px; }
+  .quiz-topbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-weight:800; color:var(--biru-tua); font-size:15px;}
+  .score-pill{ background:var(--kuning); border-radius:20px; padding:4px 14px; font-size:14px; color:#8a6d00;}
+  .progress-track{ background:#EAF6FF; border-radius:20px; height:16px; overflow:hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08);}
+  .progress-fill{ height:100%; background: linear-gradient(90deg, var(--hijau-tua), #7FE0B0); border-radius:20px; transition: width .4s ease; }
+
+  .illus-box{
+    background: linear-gradient(160deg, #F2FAFF, #FFF7E6);
+    border: 4px solid #fff;
+    outline: 3px dashed #E3EEF7;
+    outline-offset: -10px;
+    border-radius: 22px;
+    padding: 14px;
+    margin: 14px 0;
+    display:flex; align-items:center; justify-content:center;
+    min-height: 160px;
+    box-shadow: var(--shadow);
+    animation: floatBox 3.6s ease-in-out infinite;
+  }
+  @keyframes floatBox{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
+  .illus-box svg{ max-width:100%; width:100%; max-height:220px; height:auto; display:block; }
+  .multi-illus{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .multi-illus .mini{ text-align:center; width: 30%; min-width:90px; background:#fff; border-radius:14px; padding:6px; box-shadow: var(--shadow);}
+  .multi-illus .mini svg{ width:100%; height:auto; border-radius:10px; overflow:hidden;}
+  .mini-label{ font-size:11px; font-weight:700; color:#777; margin-top:4px; }
+
+  .question-text{
+    font-size: clamp(17px,4.6vw,20px);
+    font-weight:800; color:#2e2e2e; text-align:center;
+    margin: 6px 0 16px; line-height:1.4;
+  }
+  .tag-type{
+    display:inline-block; background:var(--pink); color:#c23b6b; font-weight:800;
+    font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:8px;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:12px; margin-bottom:6px;}
+  .opt-btn{
+    text-align:left; padding: 14px 16px; border-radius:18px;
+    border: 3px solid #E3EEF7; background:#fff; font-family:inherit;
+    font-size:16px; font-weight:700; cursor:pointer; color:#333;
+    display:flex; align-items:center; gap:10px;
+    transition: all .15s ease;
+  }
+  .opt-btn:hover{ border-color: var(--biru-tua); background:#F5FBFF; transform: translateX(2px);}
+  .opt-letter{
+    flex:0 0 auto; width:30px; height:30px; border-radius:50%; background:var(--biru);
+    display:flex; align-items:center; justify-content:center; font-weight:800; color:#245;
+    font-size:14px;
+  }
+  .opt-btn.correct{ border-color: var(--hijau-tua); background: #E9FBF1; }
+  .opt-btn.correct .opt-letter{ background: var(--hijau-tua); color:#fff; }
+  .opt-btn.wrong{ border-color: var(--merah-lembut); background: #FFF0EE; }
+  .opt-btn.wrong .opt-letter{ background: var(--merah-lembut); color:#fff; }
+  .opt-btn.disabled{ pointer-events:none; opacity:.85; }
+  .opt-btn.dim{ opacity:.55; }
+
+  .tf-row{ display:flex; gap:14px; }
+  .tf-row .opt-btn{ flex:1; justify-content:center; text-align:center;}
+
+  .fill-wrap{ text-align:center; margin: 10px 0 6px; }
+  .fill-wrap input{
+    width:100%; padding:14px 16px; border-radius:16px; border:3px solid var(--biru);
+    font-size:17px; text-align:center; font-family:inherit; outline:none; background:#F7FCFF;
+  }
+  .fill-wrap input:focus{ border-color:var(--biru-tua); }
+
+  .match-grid{ display:flex; gap:16px; justify-content:space-between; margin: 8px 0; }
+  .match-col{ flex:1; display:flex; flex-direction:column; gap:10px; }
+  .match-item{
+    padding:12px 10px; border-radius:14px; border:3px solid #E3EEF7; background:#fff;
+    font-weight:700; font-size:14px; text-align:center; cursor:pointer; transition: all .15s;
+  }
+  .match-item.selected{ border-color: var(--biru-tua); background:#EAF6FF; }
+  .match-item.matched{ border-color: var(--hijau-tua); background:#E9FBF1; color:#2b8a5f; cursor:default; }
+  .match-item.wrongflash{ border-color: var(--merah-lembut); background:#FFF0EE; }
+
+  .feedback-box{
+    display:none; margin-top:14px; padding:16px; border-radius:18px;
+    text-align:center; font-weight:700; position:relative; overflow:hidden;
+  }
+  .feedback-box.show{ display:block; animation: popIn .35s ease; }
+  @keyframes popIn{ from{transform:scale(.85); opacity:0;} to{transform:scale(1); opacity:1;} }
+  .feedback-box.benar{ background: #E9FBF1; border: 3px solid var(--hijau-tua); }
+  .feedback-box.salah{ background: #FFF3EC; border: 3px solid var(--oranye-tua); }
+  .feedback-title{ font-size:19px; margin-bottom:4px; }
+  .feedback-sub{ font-size:14px; font-weight:600; color:#555; }
+  .feedback-answer{ font-size:14px; font-weight:800; color:var(--biru-tua); margin-top:6px;}
+
+  .nav-row{ display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
+  .nav-row .btn{ flex:1; padding:13px 10px; font-size:15px; }
+
+  .confetti-piece{
+    position:absolute; top:-10px; width:8px; height:14px; opacity:.9;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{ to{ transform: translateY(220px) rotate(360deg); opacity:0; } }
+
+  /* ---------- HASIL ---------- */
+  .result-card{ text-align:center; }
+  .result-title{ font-size: clamp(24px,6vw,30px); font-weight:800; color:var(--hijau-tua); margin-bottom:4px;}
+  .result-stats{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:16px 0;}
+  .stat-chip{
+    background:#F7FCFF; border-radius:16px; padding:12px 16px; min-width:100px;
+    box-shadow: var(--shadow); font-weight:700;
+  }
+  .stat-chip .num{ font-size:22px; font-weight:800; color:var(--biru-tua); display:block; }
+  .stat-chip .lbl{ font-size:12px; color:#888; }
+  .result-msg{
+    background: var(--kuning); border-radius:18px; padding:14px; font-weight:700;
+    font-size:16px; margin: 14px 0; color:#7a5a00;
+  }
+  .result-actions{ display:flex; gap:10px; margin-top:10px; }
+  .result-actions .btn{ flex:1; }
+
+  @media (max-width:420px){
+    .match-grid{ gap:8px; }
+    .multi-illus .mini{ min-width:80px; }
+    .card{ padding:20px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-deco">
+  <div class="bg-cloud c1"></div>
+  <div class="bg-cloud c2"></div>
+  <div class="bg-cloud c3"></div>
+  <div class="bg-star" style="top:10%; left:12%;">⭐</div>
+  <div class="bg-star" style="top:24%; left:80%; animation-delay:.6s;">✨</div>
+  <div class="bg-star" style="top:55%; left:6%; animation-delay:1.2s;">⭐</div>
+  <div class="bg-star" style="top:70%; left:88%; animation-delay:1.8s;">✨</div>
+</div>
+<div id="app">
+
+  <!-- ===================== HALAMAN PEMBUKA ===================== -->
+  <div class="screen active" id="screen-home">
+    <div class="card home-card">
+      <div class="deco-row"><span>⭐</span> <span>📚</span> <span>🧸</span> <span>❤️</span> <span>⭐</span></div>
+      <div class="title-big">🏠 ATURAN DI RUMAHKU 🏠</div>
+      <div class="subtitle">"Yuk, belajar aturan sambil bermain!"</div>
+      <div class="house-scene">
+        <svg viewBox="0 0 300 210" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="300" height="150" fill="#CDEBFB"/>
+          <rect x="0" y="150" width="300" height="60" fill="#BFE9C9"/>
+          <circle cx="252" cy="34" r="18" fill="#FFE9A8"/><circle cx="252" cy="34" r="12" fill="#FFD35C"/>
+          <ellipse cx="46" cy="34" rx="20" ry="11" fill="#fff"/><ellipse cx="60" cy="28" rx="14" ry="11" fill="#fff"/><ellipse cx="32" cy="30" rx="12" ry="9" fill="#fff"/>
+          <ellipse cx="150" cy="200" rx="130" ry="10" fill="#A9DDB6" opacity="0.6"/>
+          <polygon points="150,38 46,116 254,116" fill="#FF9A5A"/>
+          <polygon points="150,38 46,116 70,116" fill="#FFB27A"/>
+          <rect x="60" y="116" width="180" height="80" rx="12" fill="#FFF3D6"/>
+          <rect x="60" y="116" width="180" height="10" fill="#FFE7B0"/>
+          <rect x="82" y="148" width="42" height="48" rx="6" fill="#4FA8D8"/>
+          <rect x="82" y="148" width="42" height="48" rx="6" fill="none" stroke="#3B8FC4" stroke-width="3"/>
+          <circle cx="118" cy="174" r="2.6" fill="#fff"/>
+          <rect x="176" y="138" width="34" height="30" rx="6" fill="#AEE1F9" stroke="#4FA8D8" stroke-width="3"/>
+          <line x1="193" y1="138" x2="193" y2="168" stroke="#4FA8D8" stroke-width="2"/>
+          <line x1="176" y1="153" x2="210" y2="153" stroke="#4FA8D8" stroke-width="2"/>
+          <rect x="150" y="90" width="14" height="26" fill="#E39A63"/>
+          <ellipse cx="157" cy="86" rx="9" ry="6" fill="#B7CDD9" opacity="0.8"/>
+          <!-- pohon kecil -->
+          <rect x="24" y="176" width="8" height="22" fill="#B08355"/>
+          <circle cx="28" cy="166" r="16" fill="#5FCB98"/>
+          <circle cx="270" cy="188" r="4" fill="#FF8A80"/><circle cx="280" cy="192" r="4" fill="#FFE9A8"/><circle cx="260" cy="194" r="4" fill="#AEE1F9"/>
+          <!-- keluarga di depan rumah -->
+          <g>
+            <circle cx="240" cy="172" r="11" fill="#FFD3B0"/>
+            <path d="M 231 168 Q 240 156 249 168 L 249 164 Q 240 154 231 164 Z" fill="#5A4632"/>
+            <rect x="230" y="182" width="20" height="24" rx="8" fill="#4CAF87"/>
+            <rect x="211" y="188" width="9" height="18" rx="4" fill="#FFD3B0" transform="rotate(-35 215 188)"/>
+          </g>
+          <g>
+            <circle cx="212" cy="180" r="9" fill="#FFE0BD"/>
+            <path d="M204 176 Q212 168 220 176 L220 173 Q212 166 204 173 Z" fill="#6B4A32"/>
+            <rect x="203" y="188" width="18" height="20" rx="7" fill="#FF9A5A"/>
+          </g>
+        </svg>
+      </div>
+      <button class="btn btn-primary" onclick="goTo('screen-identity')">▶ MULAI KUIS</button>
+    </div>
+  </div>
+
+  <!-- ===================== HALAMAN IDENTITAS ===================== -->
+  <div class="screen" id="screen-identity">
+    <div class="card">
+      <div class="title-big" style="font-size:24px;">Siapa Nama Kamu? 😊</div>
+      <div class="form-group">
+        <label>Nama</label>
+        <input type="text" id="input-nama" placeholder="Tulis namamu di sini...">
+      </div>
+      <div class="form-group">
+        <label>Kelas</label>
+        <input type="text" id="input-kelas" placeholder="Contoh: 2 SD">
+      </div>
+      <div class="hint-msg" id="hint-nama">Yuk, isi nama kamu terlebih dahulu 😊</div>
+      <button class="btn btn-secondary" onclick="cekIdentitas()" style="width:100%;">🚀 MULAI</button>
+    </div>
+  </div>
+
+  <!-- ===================== HALAMAN PETUNJUK ===================== -->
+  <div class="screen" id="screen-instructions">
+    <div class="card">
+      <div class="title-big" style="font-size:24px;">Cara Bermain 🎮</div>
+      <ul class="instr-list">
+        <li><span class="instr-num">1</span> Bacalah soal dengan teliti.</li>
+        <li><span class="instr-num">2</span> Pilih jawaban yang menurutmu benar.</li>
+        <li><span class="instr-num">3</span> Setelah menjawab, kamu akan mendapat pesan benar atau salah.</li>
+        <li><span class="instr-num">4</span> Kumpulkan poin sebanyak-banyaknya!</li>
+        <li><span class="instr-num">5</span> Setelah selesai, kamu akan melihat hasil kuismu.</li>
+      </ul>
+      <button class="btn btn-green" onclick="mulaiKuis()" style="width:100%;">Mulai Bermain 🎮</button>
+    </div>
+  </div>
+
+  <!-- ===================== HALAMAN KUIS ===================== -->
+  <div class="screen" id="screen-quiz">
+    <div class="card">
+      <div class="quiz-header">
+        <div class="quiz-topbar">
+          <span id="soal-counter">SOAL 1 / 15</span>
+          <span class="score-pill" id="score-pill">⭐ 0 poin</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:6.66%"></div></div>
+      </div>
+
+      <div id="illus-container"></div>
+
+      <span class="tag-type" id="tag-type">Pilihan Ganda</span>
+      <div class="question-text" id="question-text"></div>
+
+      <div id="answer-area"></div>
+
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div class="feedback-sub" id="feedback-sub"></div>
+        <div class="feedback-answer" id="feedback-answer" style="display:none;"></div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn btn-ghost" id="btn-back" onclick="soalSebelumnya()">← Kembali</button>
+        <button class="btn btn-primary" id="btn-next" onclick="soalBerikutnya()" disabled>Lanjut →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HALAMAN HASIL ===================== -->
+  <div class="screen" id="screen-result">
+    <div class="card result-card">
+      <div class="result-title">🎉 KUIS SELESAI! 🎉</div>
+      <svg viewBox="0 0 260 150" style="width:100%;max-width:260px;margin:10px auto;display:block;">
+        <ellipse cx="130" cy="140" rx="120" ry="10" fill="#FFE9A8" opacity="0.5"/>
+        <text x="40" y="30" font-size="20">⭐</text><text x="205" y="26" font-size="18">✨</text><text x="225" y="55" font-size="16">🎉</text><text x="18" y="60" font-size="16">🎊</text>
+        <g>
+          <rect x="60" y="112" width="40" height="30" rx="12" fill="#4CAF87"/>
+          <circle cx="80" cy="88" r="24" fill="#FFD3B0"/>
+          <path d="M 64 84 Q 80 66 96 84 L 96 80 Q 80 64 64 80 Z" fill="#5A4632"/>
+          <circle cx="74" cy="88" r="2" fill="#3A3A3A"/><circle cx="86" cy="88" r="2" fill="#3A3A3A"/>
+          <path d="M 73 94 Q 80 99 87 94" stroke="#8a5a3c" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <rect x="50" y="118" width="10" height="20" rx="4" fill="#FFD3B0" transform="rotate(-30 55 118)"/>
+        </g>
+        <g>
+          <rect x="108" y="98" width="44" height="36" rx="13" fill="#FF9A5A"/>
+          <circle cx="130" cy="72" r="28" fill="#FFE0BD"/>
+          <circle cx="118" cy="60" r="7" fill="#6B4A32"/><circle cx="142" cy="60" r="7" fill="#6B4A32"/>
+          <path d="M 116 58 Q 130 44 144 58 L 144 54 Q 130 42 116 54 Z" fill="#6B4A32"/>
+          <circle cx="122" cy="72" r="2.2" fill="#3A3A3A"/><circle cx="138" cy="72" r="2.2" fill="#3A3A3A"/>
+          <path d="M 120 80 Q 130 87 140 80" stroke="#8a5a3c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <rect x="96" y="102" width="10" height="22" rx="4" fill="#FFE0BD" transform="rotate(35 101 102)"/>
+          <rect x="154" y="102" width="10" height="22" rx="4" fill="#FFE0BD" transform="rotate(-35 159 102)"/>
+        </g>
+        <g>
+          <rect x="164" y="112" width="38" height="30" rx="12" fill="#4FA8D8"/>
+          <circle cx="184" cy="90" r="22" fill="#FFD3B0"/>
+          <path d="M 168 87 Q 184 72 200 87 L 200 83 Q 184 70 168 83 Z" fill="#5A4632"/>
+          <circle cx="179" cy="90" r="2" fill="#3A3A3A"/><circle cx="189" cy="90" r="2" fill="#3A3A3A"/>
+          <path d="M 178 96 Q 184 100 190 96" stroke="#8a5a3c" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </g>
+        <text x="130" y="40" text-anchor="middle" font-size="22">❤️</text>
+      </svg>
+      <div style="text-align:left; background:#F7FCFF; border-radius:16px; padding:14px 18px; font-weight:700; margin-bottom:8px;">
+        <div>Nama: <span id="hasil-nama"></span></div>
+        <div>Kelas: <span id="hasil-kelas"></span></div>
+      </div>
+      <div class="result-stats">
+        <div class="stat-chip"><span class="num" id="hasil-benar">0</span><span class="lbl">Benar</span></div>
+        <div class="stat-chip"><span class="num" id="hasil-salah">0</span><span class="lbl">Salah</span></div>
+        <div class="stat-chip"><span class="num" id="hasil-skor">0</span><span class="lbl">Skor</span></div>
+        <div class="stat-chip"><span class="num" id="hasil-nilai">0</span><span class="lbl">Nilai</span></div>
+      </div>
+      <div class="result-msg" id="result-msg"></div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="ulangiKuis()">🔄 ULANGI KUIS</button>
+        <button class="btn btn-ghost" onclick="goTo('screen-home')">🏠 BERANDA</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================
+   ILUSTRASI SVG SEDERHANA (INLINE, TANPA GAMBAR EKSTERNAL)
+===================================================== */
+var uidCounter = 0;
+function nid(prefix){ uidCounter++; return prefix + uidCounter; }
+function svgWrap(inner, vb){ return '<svg viewBox="'+(vb||'0 0 220 160')+'" xmlns="http://www.w3.org/2000/svg">'+inner+'</svg>'; }
+
+/* ---------- elemen dekorasi kecil untuk latar ilustrasi ---------- */
+function langitPita(w,h,atas,bawah){
+  // langit bergaya pita warna (tanpa gradient id, aman dipakai berulang)
+  return '<rect width="'+w+'" height="'+h+'" fill="'+atas+'"/>' +
+         '<rect y="'+(h*0.55)+'" width="'+w+'" height="'+(h*0.45)+'" fill="'+bawah+'"/>';
+}
+function awanKecil(x,y,s){ s=s||1;
+  return '<g opacity="0.85"><ellipse cx="'+x+'" cy="'+y+'" rx="'+(16*s)+'" ry="'+(9*s)+'" fill="#fff"/>' +
+    '<ellipse cx="'+(x+12*s)+'" cy="'+(y-5*s)+'" rx="'+(11*s)+'" ry="'+(9*s)+'" fill="#fff"/>' +
+    '<ellipse cx="'+(x-12*s)+'" cy="'+(y-3*s)+'" rx="'+(9*s)+'" ry="'+(7*s)+'" fill="#fff"/></g>';
+}
+function matahari(x,y){
+  return '<circle cx="'+x+'" cy="'+y+'" r="14" fill="#FFE9A8"/><circle cx="'+x+'" cy="'+y+'" r="9" fill="#FFD35C"/>';
+}
+function jendela(x,y,w,h){
+  w=w||34; h=h||30;
+  return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="4" fill="#AEE1F9" stroke="#fff" stroke-width="3"/>' +
+    '<line x1="'+(x+w/2)+'" y1="'+y+'" x2="'+(x+w/2)+'" y2="'+(y+h)+'" stroke="#fff" stroke-width="3"/>' +
+    '<line x1="'+x+'" y1="'+(y+h/2)+'" x2="'+(x+w)+'" y2="'+(y+h/2)+'" stroke="#fff" stroke-width="3"/>';
+}
+function pot(x,y){
+  return '<path d="M '+(x-9)+' '+y+' L '+(x+9)+' '+y+' L '+(x+6)+' '+(y+16)+' L '+(x-6)+' '+(y+16)+' Z" fill="#FF9A5A"/>' +
+    '<circle cx="'+(x-6)+'" cy="'+(y-6)+'" r="7" fill="#4CAF87"/><circle cx="'+x+'" cy="'+(y-12)+'" r="8" fill="#5FCB98"/><circle cx="'+(x+6)+'" cy="'+(y-6)+'" r="7" fill="#4CAF87"/>';
+}
+function rumput(w,h){
+  return '<rect y="'+(h-18)+'" width="'+w+'" height="18" fill="#BFE9C9"/>';
+}
+function karpet(x,y,w,color){
+  return '<ellipse cx="'+x+'" cy="'+y+'" rx="'+w+'" ry="'+(w*0.28)+'" fill="'+(color||'#FFE9A8')+'" opacity="0.7"/>';
+}
+function lampuGantung(x,y){
+  return '<line x1="'+x+'" y1="0" x2="'+x+'" y2="'+y+'" stroke="#E3D9C6" stroke-width="2"/>' +
+    '<path d="M '+(x-10)+' '+y+' L '+(x+10)+' '+y+' L '+(x+6)+' '+(y+12)+' L '+(x-6)+' '+(y+12)+' Z" fill="#FFE9A8"/>';
+}
+function bintangKecil(x,y,s){ s=s||10;
+  return '<text x="'+x+'" y="'+y+'" font-size="'+s+'" text-anchor="middle">✨</text>';
+}
+
+/* ---------- karakter anak yang lebih lucu & ekspresif ---------- */
+// pose: 'stand' | 'wave' | 'point' | 'bend' (membungkuk memegang benda) | 'brush' | 'carry'
+// hair: 'girl' (kuncir dua) | 'boy' (poni pendek, default)
+function anak(x,y,skin,baju,pose,hair){
+  skin = skin||'#FFD3B0'; baju = baju||'#4FA8D8'; pose = pose||'stand'; hair = hair||'boy';
+  var bend = (pose==='bend');
+  var headY = bend ? y+10 : y;
+  var bodyTop = bend ? y+22 : y+14;
+
+  // rambut
+  var rambut = '';
+  if(hair==='girl'){
+    rambut = '<circle cx="'+(x-15)+'" cy="'+(headY+4)+'" r="7" fill="#6B4A32"/>' +
+      '<circle cx="'+(x+15)+'" cy="'+(headY+4)+'" r="7" fill="#6B4A32"/>' +
+      '<path d="M '+(x-15)+' '+(headY-8)+' Q '+x+' '+(headY-22)+' '+(x+15)+' '+(headY-8)+' L '+(x+15)+' '+(headY-2)+' Q '+x+' '+(headY-14)+' '+(x-15)+' '+(headY-2)+' Z" fill="#6B4A32"/>';
+  } else {
+    rambut = '<path d="M '+(x-16)+' '+(headY-4)+' Q '+x+' '+(headY-22)+' '+(x+16)+' '+(headY-4)+' L '+(x+16)+' '+(headY-8)+' Q '+x+' '+(headY-18)+' '+(x-16)+' '+(headY-8)+' Z" fill="#5A4632"/>';
+  }
+
+  // wajah: mata + pipi + senyum
+  var wajah = '<circle cx="'+(x-6)+'" cy="'+headY+'" r="2.2" fill="#3A3A3A"/>' +
+    '<circle cx="'+(x+6)+'" cy="'+headY+'" r="2.2" fill="#3A3A3A"/>' +
+    '<circle cx="'+(x-10)+'" cy="'+(headY+6)+'" r="3.2" fill="#FFB199" opacity="0.7"/>' +
+    '<circle cx="'+(x+10)+'" cy="'+(headY+6)+'" r="3.2" fill="#FFB199" opacity="0.7"/>' +
+    '<path d="M '+(x-6)+' '+(headY+7)+' Q '+x+' '+(headY+11)+' '+(x+6)+' '+(headY+7)+'" stroke="#8a5a3c" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+
+  var kepala = '<circle cx="'+x+'" cy="'+headY+'" r="16" fill="'+skin+'"/>' + rambut + wajah;
+
+  // lengan sesuai pose
+  var lenganKiri, lenganKanan;
+  if(pose==='wave'){
+    lenganKiri = '<rect x="'+(x-20)+'" y="'+(bodyTop-6)+'" width="9" height="22" rx="4.5" fill="'+skin+'" transform="rotate(-50 '+(x-16)+' '+(bodyTop-6)+')"/>';
+    lenganKanan = '<rect x="'+(x+11)+'" y="'+(bodyTop+4)+'" width="9" height="20" rx="4.5" fill="'+skin+'"/>';
+  } else if(pose==='point'){
+    lenganKiri = '<rect x="'+(x-32)+'" y="'+(bodyTop+2)+'" width="20" height="9" rx="4.5" fill="'+skin+'"/>';
+    lenganKanan = '<rect x="'+(x+11)+'" y="'+(bodyTop+4)+'" width="9" height="20" rx="4.5" fill="'+skin+'"/>';
+  } else if(pose==='brush'){
+    lenganKiri = '<rect x="'+(x-20)+'" y="'+(bodyTop+2)+'" width="9" height="20" rx="4.5" fill="'+skin+'"/>';
+    lenganKanan = '<rect x="'+(x+6)+'" y="'+(bodyTop-14)+'" width="9" height="22" rx="4.5" fill="'+skin+'" transform="rotate(35 '+(x+10)+' '+(bodyTop-14)+')"/>';
+  } else if(pose==='bend' || pose==='carry'){
+    lenganKiri = '<rect x="'+(x-24)+'" y="'+(bodyTop+8)+'" width="10" height="18" rx="5" fill="'+skin+'" transform="rotate(35 '+(x-19)+' '+(bodyTop+8)+')"/>';
+    lenganKanan = '<rect x="'+(x+14)+'" y="'+(bodyTop+8)+'" width="10" height="18" rx="5" fill="'+skin+'" transform="rotate(-35 '+(x+19)+' '+(bodyTop+8)+')"/>';
+  } else {
+    lenganKiri = '<rect x="'+(x-22)+'" y="'+(bodyTop+4)+'" width="9" height="20" rx="4.5" fill="'+skin+'"/>';
+    lenganKanan = '<rect x="'+(x+13)+'" y="'+(bodyTop+4)+'" width="9" height="20" rx="4.5" fill="'+skin+'"/>';
+  }
+
+  var badan = '<rect x="'+(x-17)+'" y="'+bodyTop+'" width="34" height="32" rx="13" fill="'+baju+'"/>' +
+    '<circle cx="'+x+'" cy="'+(bodyTop+8)+'" r="3" fill="#fff" opacity="0.55"/>';
+
+  var kaki = '<rect x="'+(x-11)+'" y="'+(bodyTop+30)+'" width="9" height="16" rx="4" fill="#6B4A32"/>' +
+    '<rect x="'+(x+2)+'" y="'+(bodyTop+30)+'" width="9" height="16" rx="4" fill="#6B4A32"/>';
+
+  return '<g>' + kaki + badan + lenganKiri + lenganKanan + kepala + '</g>';
+}
+
+var IL = {};
+
+/* 1. Papan aturan keluarga */
+IL.papanAturan = svgWrap(
+  langitPita(220,160,'#EAF6FF','#DDEFFB') + rumput(220,160) +
+  awanKecil(38,26,0.9) + awanKecil(180,20,0.7) +
+  '<rect x="58" y="18" width="104" height="76" rx="12" fill="#fff" stroke="#4FA8D8" stroke-width="4"/>' +
+  '<circle cx="110" cy="34" r="3" fill="#F4C542"/>' +
+  '<text x="110" y="42" text-anchor="middle" font-size="13" fill="#4FA8D8" font-weight="bold">ATURAN</text>' +
+  '<rect x="72" y="52" width="76" height="7" rx="3.5" fill="#AEE1F9"/>' +
+  '<rect x="72" y="66" width="76" height="7" rx="3.5" fill="#C6F1DA"/>' +
+  '<rect x="72" y="80" width="50" height="7" rx="3.5" fill="#FFE9A8"/>' +
+  anak(66,128,'#FFD3B0','#4CAF87','wave','boy') +
+  anak(154,128,'#FFE0BD','#FF9A5A','point','girl')
+);
+
+/* 2. Tiga mini ilustrasi (soal 2) */
+IL.tigaMini = {
+  rapi: svgWrap(langitPita(160,160,'#EAF6FF','#DDEFFB') +
+    '<rect x="20" y="86" width="120" height="46" rx="10" fill="#fff" stroke="#4FA8D8" stroke-width="4"/>' +
+    '<rect x="26" y="66" width="46" height="24" rx="7" fill="#AEE1F9"/>' +
+    anak(115,105,'#FFD3B0','#4CAF87','stand','boy'),'0 0 160 160'),
+  buang: svgWrap(langitPita(160,160,'#FFF3EC','#FFE7DA') +
+    anak(70,95,'#FFE0BD','#FF9A5A','bend','girl') +
+    '<circle cx="112" cy="108" r="6" fill="#B0B0B0"/><circle cx="122" cy="120" r="5" fill="#B0B0B0"/><rect x="100" y="118" width="16" height="8" rx="3" fill="#C9A876"/>','0 0 160 160'),
+  teriak: svgWrap(langitPita(160,160,'#FFF0EE','#FFE1DE') +
+    anak(70,100,'#FFD3B0','#FF8A80','point','boy') +
+    '<circle cx="118" cy="92" r="15" fill="#FFD3B0"/><text x="140" y="82" font-size="20">❗</text>','0 0 160 160')
+};
+
+/* 3. Merapikan mainan */
+IL.rapikanMainan = svgWrap(
+  langitPita(220,160,'#EAF6FF','#E4F3FC') + karpet(115,138,70,'#AEE1F9') +
+  jendela(20,18) +
+  '<rect x="126" y="88" width="66" height="48" rx="8" fill="#FFD3B0" stroke="#FF9A5A" stroke-width="4"/>' +
+  '<rect x="126" y="80" width="66" height="12" rx="6" fill="#FF9A5A"/>' +
+  '<circle cx="80" cy="98" r="9" fill="#FF8A80"/><rect x="70" y="107" width="20" height="13" rx="4" fill="#FF8A80"/>' +
+  anak(80,70,'#FFE0BD','#4FA8D8','bend','girl')
+);
+
+/* 4. Menggosok gigi */
+IL.sikatGigi = svgWrap(
+  langitPita(220,160,'#E9FBF1','#D9F5E5') + karpet(110,140,75,'#C6F1DA') +
+  '<rect x="55" y="18" width="110" height="76" rx="12" fill="#fff" stroke="#4CAF87" stroke-width="4"/>' +
+  '<ellipse cx="110" cy="50" rx="26" ry="18" fill="#EAF6FF"/>' +
+  anak(110,122,'#FFD3B0','#AEE1F9','brush','boy') +
+  '<rect x="128" y="96" width="22" height="6" rx="3" fill="#4FA8D8"/><circle cx="152" cy="99" r="4" fill="#fff"/>'
+);
+
+/* 5. Bandingkan rumah rapi vs berantakan */
+IL.rumahBanding = svgWrap(
+  '<rect width="220" height="160" fill="#F7FCFF"/>' +
+  '<text x="55" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#FF8A80">Berantakan</text>' +
+  '<rect x="10" y="26" width="90" height="78" rx="10" fill="#FFF0EE" stroke="#FF8A80" stroke-width="3"/>' +
+  '<circle cx="28" cy="80" r="6" fill="#B0B0B0"/><circle cx="45" cy="88" r="6" fill="#B0B0B0"/><rect x="58" y="78" width="20" height="10" fill="#B0B0B0" transform="rotate(-12 68 83)"/>' +
+  anak(55,55,'#FFD3B0','#FF8A80','stand','boy') +
+  '<text x="165" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#4CAF87">Rapi &amp; Nyaman</text>' +
+  '<rect x="120" y="26" width="90" height="78" rx="10" fill="#E9FBF1" stroke="#4CAF87" stroke-width="3"/>' +
+  '<rect x="133" y="74" width="24" height="18" rx="4" fill="#AEE1F9"/><rect x="164" y="74" width="24" height="18" rx="4" fill="#FFE9A8"/>' +
+  anak(165,52,'#FFE0BD','#4CAF87','wave','girl')
+);
+
+/* 6. Keluarga rukun */
+IL.keluargaSenyum = svgWrap(
+  langitPita(220,160,'#FFF7E6','#FFEFCF') + karpet(110,140,90,'#FFD6E0') +
+  anak(64,98,'#FFD3B0','#4CAF87','stand','girl') +
+  anak(110,86,'#FFE0BD','#FF9A5A','wave','boy') +
+  anak(156,98,'#FFD3B0','#4FA8D8','stand','boy') +
+  bintangKecil(30,30,16) + bintangKecil(190,26,16) +
+  '<text x="110" y="150" text-anchor="middle" font-size="18">❤️❤️❤️</text>'
+);
+
+/* 7. Berpamitan */
+IL.pamitan = svgWrap(
+  langitPita(220,160,'#EAF6FF','#DDEFFB') + rumput(220,160) +
+  '<rect x="92" y="6" width="18" height="140" fill="#E9E2D2"/>' +
+  '<rect x="94" y="8" width="14" height="136" fill="#F5EFE2"/>' +
+  anak(58,100,'#FFD3B0','#4CAF87','wave','girl') +
+  anak(148,100,'#FFE0BD','#FF9A5A','stand','boy') +
+  awanKecil(30,24,0.8) + awanKecil(185,30,0.6)
+);
+
+/* 8. Membantu ibu */
+IL.bantuIbu = svgWrap(
+  langitPita(220,160,'#F7FCFF','#EAF6FF') + karpet(110,140,85,'#AEE1F9') +
+  jendela(168,16,32,28) +
+  '<rect x="55" y="118" width="100" height="8" rx="4" fill="#B7CDD9"/>' +
+  anak(75,96,'#FFD3B0','#AEE1F9','bend','girl') +
+  anak(135,96,'#FFE0BD','#FFD6E0','bend','boy') +
+  '<rect x="90" y="124" width="6" height="24" fill="#8B5E3C"/><rect x="83" y="118" width="20" height="8" rx="4" fill="#C9A876"/>'
+);
+
+/* 9. Piring ditinggal di meja */
+IL.piringMeja = svgWrap(
+  langitPita(220,160,'#FFF3EC','#FFE7DA') +
+  '<rect x="30" y="98" width="160" height="10" fill="#C9A876"/>' +
+  '<rect x="30" y="108" width="160" height="30" fill="#B08355"/>' +
+  '<ellipse cx="150" cy="94" rx="20" ry="8" fill="#fff" stroke="#ddd" stroke-width="2"/>' +
+  '<circle cx="150" cy="94" r="6" fill="#FFD6E0" opacity="0.7"/>' +
+  anak(70,72,'#FFD3B0','#FF9A5A','stand','boy')
+);
+
+/* 10. Edo merapikan mainan */
+IL.edoMainan = svgWrap(
+  langitPita(220,160,'#EAF6FF','#DDEFFB') + karpet(115,140,72,'#FFE9A8') +
+  '<rect x="128" y="92" width="58" height="42" rx="8" fill="#FFE9A8" stroke="#F4C542" stroke-width="4"/>' +
+  '<rect x="128" y="84" width="58" height="12" rx="6" fill="#F4C542"/>' +
+  '<circle cx="88" cy="88" r="9" fill="#FF8A80"/>' +
+  anak(80,66,'#FFE0BD','#4CAF87','bend','boy')
+);
+
+/* 14. Membuang sampah */
+IL.buangSampah = svgWrap(
+  langitPita(220,160,'#E9FBF1','#D9F5E5') + rumput(220,160) +
+  '<rect x="142" y="90" width="36" height="48" rx="6" fill="#B7CDD9" stroke="#7C93A0" stroke-width="3"/>' +
+  '<rect x="138" y="84" width="44" height="10" rx="4" fill="#7C93A0"/>' +
+  '<circle cx="105" cy="92" r="6" fill="#B0B0B0"/>' +
+  anak(80,88,'#FFD3B0','#FF9A5A','point','girl')
+);
+
+IL.bantuOrtu = IL.bantuIbu;
+
+/* ikon kecil untuk soal mencocokkan */
+IL.matchIcons = {
+  keluar: svgWrap(langitPita(120,90,'#EAF6FF','#DDEFFB')+anak(60,50,'#FFD3B0','#4FA8D8','wave','boy'),'0 0 120 90'),
+  main: svgWrap(langitPita(120,90,'#FFF7E6','#FFEFCF')+'<rect x="30" y="55" width="60" height="26" rx="6" fill="#FFD3B0"/>'+anak(60,35,'#FFE0BD','#FF9A5A','bend','girl'),'0 0 120 90'),
+  tidur: svgWrap(langitPita(120,90,'#E9FBF1','#D9F5E5')+'<rect x="15" y="58" width="90" height="20" rx="6" fill="#AEE1F9"/>'+anak(60,42,'#FFD3B0','#4CAF87','brush','boy'),'0 0 120 90')
+};
+
+/* 12 & 13. Isian singkat */
+IL.isianPamit = IL.pamitan;
+IL.isianAturan = svgWrap(
+  langitPita(220,160,'#FFF7E6','#FFEFCF') + karpet(110,140,80,'#C6F1DA') +
+  anak(58,88,'#FFD3B0','#4CAF87','bend','boy') +
+  anak(160,88,'#FFE0BD','#4FA8D8','wave','girl') +
+  '<rect x="86" y="118" width="48" height="8" rx="4" fill="#F4C542"/>'
+);
+
+/* =====================================================
+   DATA SOAL (15 SOAL - ISI & KUNCI TIDAK DIUBAH)
+===================================================== */
+var SOAL = [
+  { id:1, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Apa yang dimaksud dengan aturan?',
+    opsi:[{k:'A',t:'Sesuatu yang boleh dilanggar'},{k:'B',t:'Sesuatu yang harus kita patuhi'},{k:'C',t:'Sesuatu untuk bermain'}],
+    benar:'B', illus:'single', img:IL.papanAturan },
+
+  { id:2, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Manakah yang termasuk aturan di rumah?',
+    opsi:[{k:'A',t:'Merapikan tempat tidur'},{k:'B',t:'Membuang mainan sembarangan'},{k:'C',t:'Berteriak kepada ibu'}],
+    benar:'A', illus:'triple' },
+
+  { id:3, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Setelah selesai bermain, sebaiknya kita ....',
+    opsi:[{k:'A',t:'meninggalkan mainan'},{k:'B',t:'merapikan mainan'},{k:'C',t:'membuang mainan'}],
+    benar:'B', illus:'single', img:IL.rapikanMainan },
+
+  { id:4, tipe:'tf', tipeLabel:'Benar / Salah',
+    teks:'Menggosok gigi sebelum tidur adalah salah satu aturan yang baik di rumah.',
+    benar:'BENAR', illus:'single', img:IL.sikatGigi },
+
+  { id:5, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Mematuhi aturan membuat rumah menjadi ....',
+    opsi:[{k:'A',t:'berantakan'},{k:'B',t:'tidak nyaman'},{k:'C',t:'tertib dan nyaman'}],
+    benar:'C', illus:'single', img:IL.rumahBanding },
+
+  { id:6, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Jika semua anggota keluarga mematuhi aturan, keluarga akan hidup ....',
+    opsi:[{k:'A',t:'rukun'},{k:'B',t:'bertengkar'},{k:'C',t:'kacau'}],
+    benar:'A', illus:'single', img:IL.keluargaSenyum },
+
+  { id:7, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Ketika ingin pergi bermain, sebaiknya kita ....',
+    opsi:[{k:'A',t:'langsung pergi'},{k:'B',t:'berpamitan kepada orang tua'},{k:'C',t:'bersembunyi'}],
+    benar:'B', illus:'single', img:IL.pamitan },
+
+  { id:8, tipe:'tf', tipeLabel:'Benar / Salah',
+    teks:'Membantu ibu membersihkan rumah adalah contoh mematuhi aturan di keluarga.',
+    benar:'BENAR', illus:'single', img:IL.bantuIbu },
+
+  { id:9, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Rani selesai makan. Ia langsung meninggalkan piring di meja. Apakah sikap Rani sudah baik?',
+    opsi:[{k:'A',t:'Ya'},{k:'B',t:'Tidak'},{k:'C',t:'Sangat baik'}],
+    benar:'B', illus:'single', img:IL.piringMeja },
+
+  { id:10, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Ibu meminta Edo merapikan mainannya. Apa yang sebaiknya Edo lakukan?',
+    opsi:[{k:'A',t:'Merapikannya'},{k:'B',t:'Membiarkannya'},{k:'C',t:'Menyembunyikannya'}],
+    benar:'A', illus:'single', img:IL.edoMainan },
+
+  { id:11, tipe:'match', tipeLabel:'Mencocokkan',
+    teks:'Pasangkan kegiatan dengan aturan yang tepat!',
+    kiri:[{k:'1',t:'Keluar rumah', icon:IL.matchIcons.keluar},{k:'2',t:'Setelah bermain', icon:IL.matchIcons.main},{k:'3',t:'Sebelum tidur', icon:IL.matchIcons.tidur}],
+    kanan:[{k:'A',t:'Merapikan mainan'},{k:'B',t:'Berpamitan'},{k:'C',t:'Menggosok gigi'}],
+    benar:{'1':'B','2':'A','3':'C'} },
+
+  { id:12, tipe:'fill', tipeLabel:'Isian Singkat',
+    teks:'Sebelum pergi bermain, saya harus ______ kepada orang tua.',
+    benar:['berpamitan','meminta izin','minta izin'], illus:'single', img:IL.isianPamit },
+
+  { id:13, tipe:'fill', tipeLabel:'Isian Singkat',
+    teks:'Sebutkan satu aturan yang kamu lakukan di rumah!',
+    benar:['merapikan tempat tidur','merapikan mainan','membantu orang tua','belajar sesuai jadwal','menggosok gigi sebelum tidur','membuang sampah pada tempatnya','merapikan tempat tidur setelah bangun','belajar','menggosok gigi','membuang sampah','membantu ibu','membantu ayah'],
+    illus:'single', img:IL.isianAturan, fillBebas:true },
+
+  { id:14, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Ayah meminta kamu membuang sampah pada tempatnya. Kamu sebaiknya ....',
+    opsi:[{k:'A',t:'membuang sampah sembarangan'},{k:'B',t:'membuang sampah pada tempatnya'},{k:'C',t:'memberikan sampah kepada teman'}],
+    benar:'B', illus:'single', img:IL.buangSampah },
+
+  { id:15, tipe:'mc', tipeLabel:'Pilihan Ganda',
+    teks:'Manakah sikap yang menunjukkan anak mematuhi aturan?',
+    opsi:[{k:'A',t:'Membantu orang tua'},{k:'B',t:'Berteriak kepada orang tua'},{k:'C',t:'Tidak mau belajar'}],
+    benar:'A', illus:'single', img:IL.bantuOrtu }
+];
+
+/* =====================================================
+   STATE
+===================================================== */
+var state = {
+  nama:'', kelas:'',
+  idx:0,
+  jawaban:new Array(SOAL.length).fill(null),
+  hasilBenar:new Array(SOAL.length).fill(null), // true/false per soal
+  matchPilihKiri:null,
+  matchState:{} // per soal index -> {A:'1', ...} pairs made
+};
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function cekIdentitas(){
+  var nama = document.getElementById('input-nama').value.trim();
+  var kelas = document.getElementById('input-kelas').value.trim();
+  var hint = document.getElementById('hint-nama');
+  if(!nama){
+    hint.style.display = 'block';
+    return;
+  }
+  hint.style.display = 'none';
+  state.nama = nama;
+  state.kelas = kelas || '-';
+  goTo('screen-instructions');
+}
+
+function mulaiKuis(){
+  state.idx = 0;
+  goTo('screen-quiz');
+  renderSoal();
+}
+
+/* =====================================================
+   RENDER SOAL
+===================================================== */
+function renderSoal(){
+  var i = state.idx;
+  var s = SOAL[i];
+  document.getElementById('soal-counter').textContent = 'SOAL ' + (i+1) + ' / ' + SOAL.length;
+  document.getElementById('progress-fill').style.width = (((i+1)/SOAL.length)*100) + '%';
+  updateScorePill();
+  document.getElementById('tag-type').textContent = s.tipeLabel;
+  document.getElementById('question-text').textContent = s.teks;
+
+  // ilustrasi
+  var illusC = document.getElementById('illus-container');
+  if(s.tipe === 'match'){
+    illusC.innerHTML = '';
+  } else if(s.illus === 'triple'){
+    illusC.innerHTML = '<div class="illus-box"><div class="multi-illus">' +
+      '<div class="mini">'+IL.tigaMini.rapi+'<div class="mini-label">Merapikan tempat tidur</div></div>' +
+      '<div class="mini">'+IL.tigaMini.buang+'<div class="mini-label">Membuang mainan sembarangan</div></div>' +
+      '<div class="mini">'+IL.tigaMini.teriak+'<div class="mini-label">Berteriak kepada ibu</div></div>' +
+      '</div></div>';
+  } else if(s.img){
+    illusC.innerHTML = '<div class="illus-box">'+s.img+'</div>';
+  } else {
+    illusC.innerHTML = '';
+  }
+
+  var area = document.getElementById('answer-area');
+  area.innerHTML = '';
+
+  if(s.tipe === 'mc'){
+    var wrap = document.createElement('div'); wrap.className = 'options';
+    s.opsi.forEach(function(o){
+      var b = document.createElement('button');
+      b.className = 'opt-btn';
+      b.innerHTML = '<span class="opt-letter">'+o.k+'</span><span>'+o.t+'</span>';
+      b.onclick = function(){ pilihJawabanMC(o.k); };
+      wrap.appendChild(b);
+    });
+    area.appendChild(wrap);
+  } else if(s.tipe === 'tf'){
+    var wrap2 = document.createElement('div'); wrap2.className = 'options tf-row';
+    ['BENAR','SALAH'].forEach(function(v){
+      var b = document.createElement('button');
+      b.className = 'opt-btn';
+      b.innerHTML = (v==='BENAR' ? '✅ ' : '❌ ') + v;
+      b.onclick = function(){ pilihJawabanMC(v); };
+      wrap2.appendChild(b);
+    });
+    area.appendChild(wrap2);
+  } else if(s.tipe === 'fill'){
+    var wrap3 = document.createElement('div'); wrap3.className = 'fill-wrap';
+    var inp = document.createElement('input');
+    inp.type = 'text'; inp.id = 'fill-input'; inp.placeholder = 'Tulis jawabanmu di sini...';
+    wrap3.appendChild(inp);
+    var btnJawab = document.createElement('button');
+    btnJawab.className = 'btn btn-secondary';
+    btnJawab.style.marginTop = '10px';
+    btnJawab.textContent = 'Jawab ✅';
+    btnJawab.onclick = function(){ cekJawabanFill(); };
+    wrap3.appendChild(document.createElement('br'));
+    wrap3.appendChild(btnJawab);
+    area.appendChild(wrap3);
+  } else if(s.tipe === 'match'){
+    renderMatch(s, area);
+  }
+
+  // restore jawaban sebelumnya
+  document.getElementById('feedback-box').className = 'feedback-box';
+  document.getElementById('feedback-answer').style.display = 'none';
+  document.getElementById('btn-next').disabled = true;
+  document.getElementById('btn-back').style.visibility = (i===0) ? 'hidden' : 'visible';
+
+  if(state.jawaban[i] !== null){
+    tampilkanUlangJawaban(s);
+  }
+}
+
+function updateScorePill(){
+  var poin = state.hasilBenar.reduce(function(acc,v){ return acc + (v===true?10:0); },0);
+  document.getElementById('score-pill').textContent = '⭐ ' + poin + ' poin';
+}
+
+/* -------- Pilihan Ganda / Benar-Salah -------- */
+function pilihJawabanMC(pilihan){
+  var i = state.idx; var s = SOAL[i];
+  if(state.jawaban[i] !== null) return; // sudah dijawab
+  state.jawaban[i] = pilihan;
+  var benar = (pilihan === s.benar);
+  state.hasilBenar[i] = benar;
+
+  var btns = document.querySelectorAll('#answer-area .opt-btn');
+  btns.forEach(function(b){
+    b.classList.add('disabled');
+    var label = b.textContent.trim();
+    var isThis = label.indexOf(pilihan) === 0 || label === pilihan || (s.tipe==='mc' && label.charAt(0)===pilihan);
+  });
+  // tandai dengan cara data-key agar akurat
+  markMCButtons(s, pilihan);
+
+  tampilkanFeedback(benar, s);
+  updateScorePill();
+  document.getElementById('btn-next').disabled = false;
+}
+
+function markMCButtons(s, pilihanUser){
+  var btns = document.querySelectorAll('#answer-area .opt-btn');
+  if(s.tipe === 'mc'){
+    btns.forEach(function(b, idx){
+      var key = s.opsi[idx].k;
+      if(key === s.benar) b.classList.add('correct');
+      if(key === pilihanUser && key !== s.benar) b.classList.add('wrong');
+      if(key !== pilihanUser && key !== s.benar) b.classList.add('dim');
+    });
+  } else if(s.tipe === 'tf'){
+    var vals = ['BENAR','SALAH'];
+    btns.forEach(function(b, idx){
+      var key = vals[idx];
+      if(key === s.benar) b.classList.add('correct');
+      if(key === pilihanUser && key !== s.benar) b.classList.add('wrong');
+      if(key !== pilihanUser && key !== s.benar) b.classList.add('dim');
+    });
+  }
+}
+
+/* -------- Isian Singkat -------- */
+function cekJawabanFill(){
+  var i = state.idx; var s = SOAL[i];
+  if(state.jawaban[i] !== null) return;
+  var inp = document.getElementById('fill-input');
+  var val = (inp.value || '').trim().toLowerCase();
+  if(!val) return;
+  var benar = s.benar.some(function(k){ return val.indexOf(k.toLowerCase()) !== -1; });
+  state.jawaban[i] = val;
+  state.hasilBenar[i] = benar;
+  inp.disabled = true;
+  document.querySelector('#answer-area button').disabled = true;
+  tampilkanFeedback(benar, s);
+  updateScorePill();
+  document.getElementById('btn-next').disabled = false;
+}
+
+/* -------- Mencocokkan -------- */
+function renderMatch(s, area){
+  var i = state.idx;
+  if(!state.matchState[i]) state.matchState[i] = {};
+  state.matchPilihKiri = null;
+
+  var wrap = document.createElement('div');
+  var grid = document.createElement('div'); grid.className = 'match-grid';
+  var colL = document.createElement('div'); colL.className = 'match-col';
+  var colR = document.createElement('div'); colR.className = 'match-col';
+
+  s.kiri.forEach(function(item){
+    var d = document.createElement('div');
+    d.className = 'match-item'; d.textContent = item.t; d.dataset.key = item.k;
+    d.onclick = function(){ pilihKiri(item.k, d); };
+    colL.appendChild(d);
+  });
+  s.kanan.forEach(function(item){
+    var d = document.createElement('div');
+    d.className = 'match-item'; d.textContent = item.t; d.dataset.key = item.k;
+    d.onclick = function(){ pilihKanan(item.k, d); };
+    colR.appendChild(d);
+  });
+  grid.appendChild(colL); grid.appendChild(colR);
+  wrap.appendChild(grid);
+
+  var hint = document.createElement('div');
+  hint.style.textAlign='center'; hint.style.fontSize='13px'; hint.style.color='#888'; hint.style.marginTop='4px';
+  hint.textContent = 'Ketuk satu kegiatan di kiri, lalu ketuk aturan yang cocok di kanan.';
+  wrap.appendChild(hint);
+
+  area.appendChild(wrap);
+  refreshMatchUI(s);
+}
+
+function pilihKiri(key, el){
+  var i = state.idx;
+  if(state.matchState[i][key]) return; // sudah cocok
+  document.querySelectorAll('#answer-area .match-col:first-child .match-item').forEach(function(e){ e.classList.remove('selected'); });
+  el.classList.add('selected');
+  state.matchPilihKiri = key;
+}
+
+function pilihKanan(key, el){
+  var i = state.idx; var s = SOAL[i];
+  if(!state.matchPilihKiri) return;
+  var kiriKey = state.matchPilihKiri;
+  if(state.matchState[i][kiriKey]) return;
+  var isBenar = (s.benar[kiriKey] === key);
+  if(isBenar){
+    state.matchState[i][kiriKey] = key;
+    state.matchPilihKiri = null;
+    refreshMatchUI(s);
+    // cek selesai semua
+    if(Object.keys(state.matchState[i]).length === s.kiri.length){
+      state.jawaban[i] = 'selesai';
+      state.hasilBenar[i] = true;
+      tampilkanFeedback(true, s);
+      updateScorePill();
+      document.getElementById('btn-next').disabled = false;
+    }
+  } else {
+    el.classList.add('wrongflash');
+    setTimeout(function(){ el.classList.remove('wrongflash'); }, 500);
+  }
+}
+
+function refreshMatchUI(s){
+  var i = state.idx;
+  var kananEls = document.querySelectorAll('#answer-area .match-col:last-child .match-item');
+  var kiriEls = document.querySelectorAll('#answer-area .match-col:first-child .match-item');
+  var matchedKanan = Object.values(state.matchState[i] || {});
+  kananEls.forEach(function(e){
+    if(matchedKanan.indexOf(e.dataset.key) !== -1) e.classList.add('matched');
+  });
+  kiriEls.forEach(function(e){
+    if(state.matchState[i][e.dataset.key]) e.classList.add('matched');
+  });
+}
+
+function tampilkanUlangJawaban(s){
+  var i = state.idx;
+  if(s.tipe === 'mc' || s.tipe === 'tf'){
+    markMCButtons(s, state.jawaban[i]);
+    document.querySelectorAll('#answer-area .opt-btn').forEach(function(b){ b.classList.add('disabled'); });
+  } else if(s.tipe === 'fill'){
+    document.getElementById('fill-input').value = state.jawaban[i];
+    document.getElementById('fill-input').disabled = true;
+    document.querySelector('#answer-area button').disabled = true;
+  } else if(s.tipe === 'match'){
+    refreshMatchUI(s);
+  }
+  tampilkanFeedback(state.hasilBenar[i], s, true);
+  document.getElementById('btn-next').disabled = false;
+}
+
+/* -------- Feedback -------- */
+function tampilkanFeedback(benar, s, tanpaConfetti){
+  var box = document.getElementById('feedback-box');
+  var title = document.getElementById('feedback-title');
+  var sub = document.getElementById('feedback-sub');
+  var ans = document.getElementById('feedback-answer');
+
+  box.className = 'feedback-box show ' + (benar ? 'benar' : 'salah');
+  if(benar){
+    title.textContent = '🎉 HEBAT!';
+    sub.textContent = 'Jawaban kamu benar!';
+    ans.style.display = 'none';
+    if(!tanpaConfetti) buatConfetti(box);
+  } else {
+    title.textContent = '😊 BELUM TEPAT';
+    sub.textContent = 'Tidak apa-apa, yuk belajar lagi!';
+    ans.style.display = 'block';
+    ans.textContent = 'Jawaban yang benar adalah: ' + jawabanBenarText(s);
+  }
+}
+
+function jawabanBenarText(s){
+  if(s.tipe === 'mc'){
+    var found = s.opsi.filter(function(o){ return o.k === s.benar; })[0];
+    return s.benar + '. ' + (found ? found.t : '');
+  } else if(s.tipe === 'tf'){
+    return s.benar;
+  } else if(s.tipe === 'fill'){
+    return s.benar[0];
+  } else if(s.tipe === 'match'){
+    return 'Lihat kembali pasangan yang tepat.';
+  }
+  return '';
+}
+
+function buatConfetti(container){
+  var colors = ['#FFD3B0','#AEE1F9','#C6F1DA','#FFE9A8','#FFD6E0'];
+  for(var k=0;k<14;k++){
+    var p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = (Math.random()*90+5)+'%';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDuration = (0.8+Math.random()*0.6)+'s';
+    container.appendChild(p);
+    (function(el){ setTimeout(function(){ el.remove(); }, 1600); })(p);
+  }
+}
+
+/* =====================================================
+   NAVIGASI
+===================================================== */
+function soalBerikutnya(){
+  if(state.jawaban[state.idx] === null) return; // wajib jawab dulu
+  if(state.idx < SOAL.length-1){
+    state.idx++;
+    renderSoal();
+  } else {
+    tampilkanHasil();
+  }
+}
+
+function soalSebelumnya(){
+  if(state.idx > 0){
+    state.idx--;
+    renderSoal();
+  }
+}
+
+/* =====================================================
+   HASIL
+===================================================== */
+function tampilkanHasil(){
+  var benar = state.hasilBenar.filter(function(v){ return v===true; }).length;
+  var salah = state.hasilBenar.filter(function(v){ return v===false; }).length;
+  var skor = benar * 10;
+  var nilai = Math.round((skor/150)*100);
+
+  document.getElementById('hasil-nama').textContent = state.nama;
+  document.getElementById('hasil-kelas').textContent = state.kelas;
+  document.getElementById('hasil-benar').textContent = benar;
+  document.getElementById('hasil-salah').textContent = salah;
+  document.getElementById('hasil-skor').textContent = skor + ' / 150';
+  document.getElementById('hasil-nilai').textContent = nilai;
+
+  var msg = document.getElementById('result-msg');
+  if(skor >= 120){
+    msg.textContent = '🌟 Luar biasa! Kamu sudah memahami aturan di rumah!';
+  } else if(skor >= 90){
+    msg.textContent = '😊 Bagus! Kamu sudah cukup memahami aturan di rumah.';
+  } else {
+    msg.textContent = '💪 Tetap semangat! Yuk belajar lagi tentang aturan di rumah.';
+  }
+
+  goTo('screen-result');
+}
+
+function ulangiKuis(){
+  state.idx = 0;
+  state.jawaban = new Array(SOAL.length).fill(null);
+  state.hasilBenar = new Array(SOAL.length).fill(null);
+  state.matchState = {};
+  state.matchPilihKiri = null;
+  goTo('screen-quiz');
+  renderSoal();
+}
+</script>
+</body>
+</html>
